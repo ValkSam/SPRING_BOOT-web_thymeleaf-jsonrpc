@@ -6,7 +6,7 @@ import com.googlecode.jsonrpc4j.*;
 
 import java.util.List;
 
-@JsonRpcService("/v1/order")
+//@JsonRpcService("/v1/order")
 public interface OrderApiV1 {
   /*
   POST /v1/order

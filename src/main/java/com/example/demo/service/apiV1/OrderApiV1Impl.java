@@ -4,15 +4,13 @@ import com.example.demo.controller.apiV1.OrderApiV1;
 import com.example.demo.dao.OrderDao;
 import com.example.demo.model.Order;
 import com.example.demo.service.exeption.OrderNotFoundException;
-import com.googlecode.jsonrpc4j.spring.AutoJsonRpcServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@AutoJsonRpcServiceImpl
+//@Service
 public class OrderApiV1Impl implements OrderApiV1 {
 
   @Autowired OrderDao orderDao;
