@@ -4,9 +4,13 @@ import com.example.demo.controller.apiV1.OrderApiV1;
 import com.example.demo.dao.OrderDao;
 import com.example.demo.model.Order;
 import com.example.demo.service.exeption.OrderNotFoundException;
+import com.googlecode.jsonrpc4j.StreamServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.net.Socket;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +18,19 @@ import java.util.Optional;
 public class OrderApiV1Impl implements OrderApiV1 {
 
   @Autowired OrderDao orderDao;
+
+  @Autowired StreamServer streamServer;
+
+  @PostConstruct
+  public void init(){
+    streamServer.start();
+//    Socket socket = new Socket(serverSocket.getInetAddress(), serverSocket.getLocalPort());
+  }
+
+  @PreDestroy
+  public void destroy() throws InterruptedException {
+    streamServer.stop();
+  }
 
   @Override
   public List<Order> getAll() {

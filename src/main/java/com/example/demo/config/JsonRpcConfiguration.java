@@ -4,18 +4,18 @@ import com.example.demo.controller.apiV1.DepositApiV1;
 import com.example.demo.controller.apiV1.OrderApiV1;
 import com.example.demo.service.apiV1.DepositApiV1Impl;
 import com.example.demo.service.apiV1.OrderApiV1Impl;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.googlecode.jsonrpc4j.ErrorResolver;
+import com.googlecode.jsonrpc4j.JsonRpcClient;
 import com.googlecode.jsonrpc4j.JsonRpcServer;
+import com.googlecode.jsonrpc4j.ProxyUtil;
 import com.googlecode.jsonrpc4j.StreamServer;
 import com.googlecode.jsonrpc4j.spring.JsonServiceExporter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.net.ServerSocketFactory;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.InetAddress;
-import java.util.List;
+import java.net.ServerSocket;
 
 @Configuration
 public class JsonRpcConfiguration {
@@ -31,18 +31,25 @@ public class JsonRpcConfiguration {
   }
 
 /*  @Bean
-  public CompositeJsonServiceExporter compositeJsonServiceExporter() {
-    CompositeJsonServiceExporter exp = new CompositeJsonServiceExporter();
+  public Object compositeJsonServiceExporter() {
+//    CompositeJsonServiceExporter exp = new CompositeJsonServiceExporter();
+    Object exp = ProxyUtil.createCompositeServiceProxy(
+        this.getClass().getClassLoader(),
+        new Object[]{depositApiV1(), orderApiV1()},
+        new Class[]{DepositApiV1.class, OrderApiV1.class},
+        true
+    );
+
     //in here you can provide custom HTTP status code providers etc. eg:
     //exp.setHttpStatusCodeProvider();
     //exp.setErrorResolver();
 //    exp.setErrorResolver(errorResolver());
-    exp.setAllowExtraParams(false);
-    exp.setAllowLessParams(false);
+//    exp.setAllowExtraParams(false);
+//    exp.setAllowLessParams(false);
 //    exp.setServices(new Object[]{depositApiV1(), orderApiV1()});
-    exp.setServices(new Object[]{depositApiV1()});
+//    exp.setServices(new Object[]{depositApiV1()});
 //    exp.setServiceInterfaces(new Class[]{DepositApiV1.class, OrderApiV1.class});
-    exp.setServiceInterfaces(new Class[]{DepositApiV1.class});
+//    exp.setServiceInterfaces(new Class[]{DepositApiV1.class});
     return exp;
   }*/
 
@@ -54,7 +61,7 @@ public class JsonRpcConfiguration {
     return exporter;
   }
 
-  @Bean(name = "/v1/order")
+  @Bean(name = "/v1/order/info")
 //  @Bean
   public JsonServiceExporter jsonOrderServiceExporter() {
     JsonServiceExporter exporter = new JsonServiceExporter();
@@ -63,11 +70,11 @@ public class JsonRpcConfiguration {
     return exporter;
   }
 
-/*  @Bean
+  @Bean
   public JsonRpcServer jsonRpcServer() {
     return new JsonRpcServer(jsonOrderServiceExporter());
 //    return new JsonRpcServer(compositeJsonServiceExporter());
-  }*/
+  }
 
 /*  @Bean
   public ErrorResolver errorResolver() {
@@ -78,12 +85,22 @@ public class JsonRpcConfiguration {
       }
     };
   }*/
+/*
+  @Bean
+  public JsonRpcClient jsonRpcClient() {
+    return new JsonRpcClient();
+  }
 
-/*  @Bean
+  @Bean
+  public ServerSocket serverSocket() throws IOException {
+    return ServerSocketFactory.getDefault().createServerSocket(0, 0, InetAddress.getByName("127.0.0.1"));
+  }*/
+
+  @Bean
   public StreamServer streamServer(JsonRpcServer jsonRpcServer) throws IOException {
     int maxThreads = 50;
     int port = 1420;
     InetAddress bindAddress = InetAddress.getByName("localhost");
     return new StreamServer(jsonRpcServer, maxThreads, port, 0, bindAddress);
-  }*/
+  }
 }
