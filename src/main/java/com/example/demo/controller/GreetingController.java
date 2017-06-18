@@ -24,17 +24,17 @@ public class GreetingController {
     return "greeting";
   }
 
-//  @Autowired JsonRpcServer jsonRpcServer;
+  @Autowired JsonRpcServer jsonRpcServer;
 
   @Autowired ChatWebSocketHandler chatWebSocketHandler;
 
   @MessageMapping("/color")
+
   public void receiveColor(String message) throws IOException {
-    System.out.println("==================================" + message);
+    System.out.println(message);
     OutputStream out = new ByteArrayOutputStream();
     InputStream in = new ByteArrayInputStream(message.getBytes());
-//    jsonRpcServer.handle(in, out);
-//    jsonRpcServer.handle(request, response);
+    jsonRpcServer.handleRequest(in, out);
   }
 
   @Scheduled(fixedDelay = 5000)

@@ -36,16 +36,21 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         return sessions;
     }
 
-//    @Autowired JsonRpcServer jsonRpcServer;
-    @Autowired JsonRpcBasicServer jsonRpcServer;
+    @Autowired JsonRpcServer jsonRpcServer;
+//    @Autowired JsonRpcBasicServer jsonRpcServer;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-//        super.handleTextMessage(session, message);
-        System.out.println(message);
+        super.handleTextMessage(session, message);
+        System.out.println("Handler:               "+message);
+
+        /*System.out.println(message);
         OutputStream out = new ByteArrayOutputStream();
         InputStream in = new ByteArrayInputStream(message.asBytes());
-        jsonRpcServer.handle(in, out);
+        jsonRpcServer.handleRequest(in, out);
+        System.out.println();
+        System.out.println("****************************************************************************   1");
         session.sendMessage(new TextMessage(out.toString()));
+        System.out.println("****************************************************************************   2");*/
     }
 }

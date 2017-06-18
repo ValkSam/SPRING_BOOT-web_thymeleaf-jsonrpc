@@ -19,18 +19,6 @@ public class OrderApiV1Impl implements OrderApiV1 {
 
   @Autowired OrderDao orderDao;
 
-  /*@Autowired StreamServer streamServer;
-
-  @PostConstruct
-  public void init(){
-    streamServer.start();
-//    Socket socket = new Socket(serverSocket.getInetAddress(), serverSocket.getLocalPort());
-  }
-
-  @PreDestroy
-  public void destroy() throws InterruptedException {
-    streamServer.stop();
-  }*/
 
   @Override
   public List<Order> getAll() {
