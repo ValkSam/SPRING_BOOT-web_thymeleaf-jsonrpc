@@ -6,7 +6,7 @@ import com.googlecode.jsonrpc4j.*;
 
 import java.util.List;
 
-@JsonRpcService("/v1/deposit")
+//@JsonRpcService("/v1/deposit")
 public interface DepositApiV1 {
   /*
   POST /v1/deposit
@@ -15,7 +15,7 @@ public interface DepositApiV1 {
 
   GET /v1/deposit?jsonrpc=2.0&id=1&method=getAll
   */
-  @JsonRpcMethod(value = "getAll")
+//  @JsonRpcMethod(value = "getAll")
   List<Deposit> getAll();
 
   /*
@@ -30,7 +30,7 @@ public interface DepositApiV1 {
       @JsonRpcError(exception = DepositNotFoundException.class,
           code = -10000, message = "Order not found")
   })
-  @JsonRpcMethod(value = "get")
+//  @JsonRpcMethod(value = "get")
   Deposit getOne(@JsonRpcParam(value = "id") int depositId);
 
   /*
@@ -38,7 +38,7 @@ public interface DepositApiV1 {
   content-type: application/json
   {"id":"1","jsonrpc":"2.0","method":"get", "params":[{"id":2, "type":"USD"}]}
   */
-  @JsonRpcMethod(value = "get")
+//  @JsonRpcMethod(value = "get")
   Deposit getOne(Deposit deposit);
 
 }

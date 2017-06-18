@@ -1,9 +1,15 @@
 package com.example.demo.controller;
 
 import com.example.demo.socket.ChatWebSocketHandler;
+import com.googlecode.jsonrpc4j.JsonRpcBasicServer;
 import com.googlecode.jsonrpc4j.JsonRpcServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.socket.TextMessage;
 
 import java.io.*;
+import java.util.Map;
 
 /**
  * Created by ValkSam on 09.06.2017.
@@ -24,17 +31,25 @@ public class GreetingController {
     return "greeting";
   }
 
-  @Autowired JsonRpcServer jsonRpcServer;
+  @Autowired
+  Map<String, JsonRpcServer> jsonRpcServerMap;
+
+  @Qualifier("/v1/orderServer") @Autowired JsonRpcServer jsonRpcOrderServer;
+  @Qualifier("/v1/depositServer") @Autowired JsonRpcServer jsonRpcDepositServer;
 
   @Autowired ChatWebSocketHandler chatWebSocketHandler;
 
-  @MessageMapping("/color")
+  @Autowired
+  private SimpMessagingTemplate simpMessagingTemplate;
 
-  public void receiveColor(String message) throws IOException {
+  @MessageMapping("/color")
+  @SendToUser("/topic/color")
+  public String receiveColor(Message message, String str, @Payload String payload) throws IOException {
     System.out.println(message);
     OutputStream out = new ByteArrayOutputStream();
-    InputStream in = new ByteArrayInputStream(message.getBytes());
-    jsonRpcServer.handleRequest(in, out);
+    InputStream in = new ByteArrayInputStream(payload.getBytes());
+    jsonRpcOrderServer.handle(in, out);
+    return out.toString();
   }
 
   @Scheduled(fixedDelay = 5000)
@@ -46,5 +61,7 @@ public class GreetingController {
         e.printStackTrace();
       }
     });
+    simpMessagingTemplate.convertAndSend("/topic/light", "======***======");
+//  ??  simpMessagingTemplate.convertAndSendToUser("sub-0", "/topic/color", "======***======");
   }
 }

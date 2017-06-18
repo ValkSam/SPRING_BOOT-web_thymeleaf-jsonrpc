@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+//@AutoJsonRpcServiceImpl
 public class DepositApiV1Impl implements DepositApiV1 {
 
   @Autowired DepositDao depositDao;

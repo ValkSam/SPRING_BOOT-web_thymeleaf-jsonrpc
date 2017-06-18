@@ -3,10 +3,11 @@ package com.example.demo.controller.apiV1;
 import com.example.demo.model.Order;
 import com.example.demo.service.exeption.OrderNotFoundException;
 import com.googlecode.jsonrpc4j.*;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@JsonRpcService("/v1/order")
+//@JsonRpcService("/v1/order")
 public interface OrderApiV1 {
   /*
   POST /v1/order
@@ -29,8 +30,8 @@ public interface OrderApiV1 {
       @JsonRpcError(exception = OrderNotFoundException.class,
           code = -10000, message = "Order not found")
   })
-  @JsonRpcMethod(value = "get")
-  Order getOne(@JsonRpcParam(value = "id") int id);
+  @JsonRpcMethod(value = "getOne")
+  Order getOne(@JsonRpcParam(value = "id") int orderId);
 
   /*
   POST /v1/order

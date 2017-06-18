@@ -10,7 +10,7 @@ import org.springframework.web.socket.config.annotation.*;
 /**
  * Created by ValkSam on 18.06.2017.
  */
-@Configuration
+//@Configuration
 @EnableWebSocket
 public class WebSocketConfiguration1 implements WebSocketConfigurer {
 
