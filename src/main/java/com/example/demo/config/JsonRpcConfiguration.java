@@ -4,10 +4,8 @@ import com.example.demo.controller.apiV1.DepositApiV1;
 import com.example.demo.controller.apiV1.OrderApiV1;
 import com.example.demo.service.apiV1.DepositApiV1Impl;
 import com.example.demo.service.apiV1.OrderApiV1Impl;
-import com.googlecode.jsonrpc4j.JsonRpcClient;
-import com.googlecode.jsonrpc4j.JsonRpcServer;
-import com.googlecode.jsonrpc4j.ProxyUtil;
-import com.googlecode.jsonrpc4j.StreamServer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.googlecode.jsonrpc4j.*;
 import com.googlecode.jsonrpc4j.spring.JsonServiceExporter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,7 +59,7 @@ public class JsonRpcConfiguration {
     return exporter;
   }
 
-  @Bean(name = "/v1/order/info")
+  @Bean(name = "/v1/order")
 //  @Bean
   public JsonServiceExporter jsonOrderServiceExporter() {
     JsonServiceExporter exporter = new JsonServiceExporter();
@@ -70,10 +68,17 @@ public class JsonRpcConfiguration {
     return exporter;
   }
 
-  @Bean
+  /*@Bean
   public JsonRpcServer jsonRpcServer() {
     return new JsonRpcServer(jsonOrderServiceExporter());
 //    return new JsonRpcServer(compositeJsonServiceExporter());
+  }*/
+  @Bean
+  public JsonRpcBasicServer jsonRpcServer() {
+    ObjectMapper mapper = new ObjectMapper();
+    Object handler = jsonOrderServiceExporter().getService(); // This would be an instance of a class annotated with @JsonRpcService
+    JsonRpcBasicServer server = new JsonRpcBasicServer(mapper, handler);
+    return server;
   }
 
 /*  @Bean
@@ -85,22 +90,23 @@ public class JsonRpcConfiguration {
       }
     };
   }*/
-/*
-  @Bean
+  /*@Bean
   public JsonRpcClient jsonRpcClient() {
     return new JsonRpcClient();
-  }
-
-  @Bean
-  public ServerSocket serverSocket() throws IOException {
-    return ServerSocketFactory.getDefault().createServerSocket(0, 0, InetAddress.getByName("127.0.0.1"));
   }*/
+
+  /*@Bean
+  public ServerSocket serverSocket() throws IOException {
+    ServerSocket ss = ServerSocketFactory.getDefault().createServerSocket(0, 0, InetAddress.getByName("localhost"));
+    return ss;
+  }
 
   @Bean
   public StreamServer streamServer(JsonRpcServer jsonRpcServer) throws IOException {
     int maxThreads = 50;
-    int port = 1420;
+    int port = 8080;
     InetAddress bindAddress = InetAddress.getByName("localhost");
-    return new StreamServer(jsonRpcServer, maxThreads, port, 0, bindAddress);
-  }
+//    return new StreamServer(jsonRpcServer, maxThreads, port, 0, bindAddress);
+    return new StreamServer(jsonRpcServer, maxThreads, 0, 0, bindAddress);
+  }*/
 }

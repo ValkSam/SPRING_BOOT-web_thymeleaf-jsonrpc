@@ -30,7 +30,7 @@ public interface OrderApiV1 {
           code = -10000, message = "Order not found")
   })
   @JsonRpcMethod(value = "get")
-  Order getOne(@JsonRpcParam(value = "id") int orderId);
+  Order getOne(@JsonRpcParam(value = "id") int id);
 
   /*
   POST /v1/order
@@ -39,7 +39,7 @@ public interface OrderApiV1 {
 
   GET /v1/order?jsonrpc=2.0&id=1&method=get&params=%5B%7B%22id%22%3A2%2C+%22type%22%3A%22SELL%22%7D%5D
   */
-  @JsonRpcMethod(value = "get")
-  Order getOne(Order order);
+  @JsonRpcMethod(value = "getOrder")
+  Order getOrder(Order order);
 
 }

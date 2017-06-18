@@ -19,7 +19,7 @@ public class OrderApiV1Impl implements OrderApiV1 {
 
   @Autowired OrderDao orderDao;
 
-  @Autowired StreamServer streamServer;
+  /*@Autowired StreamServer streamServer;
 
   @PostConstruct
   public void init(){
@@ -30,7 +30,7 @@ public class OrderApiV1Impl implements OrderApiV1 {
   @PreDestroy
   public void destroy() throws InterruptedException {
     streamServer.stop();
-  }
+  }*/
 
   @Override
   public List<Order> getAll() {
@@ -38,13 +38,13 @@ public class OrderApiV1Impl implements OrderApiV1 {
   }
 
   @Override
-  public Order getOne(int orderId) {
-    Optional<Order> result = orderDao.findById(orderId);
-    return result.orElseThrow(() -> new OrderNotFoundException(String.valueOf(orderId)));
+  public Order getOne(int id) {
+    Optional<Order> result = orderDao.findById(id);
+    return result.orElseThrow(() -> new OrderNotFoundException(String.valueOf(id)));
   }
 
   @Override
-  public Order getOne(Order order) {
+  public Order getOrder(Order order) {
     return getOne(order.getId());
   }
 }
