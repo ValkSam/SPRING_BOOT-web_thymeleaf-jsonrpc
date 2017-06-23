@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-//@JsonRpcService("/v1/order")
 public interface OrderApiV1 {
   /*
   POST /v1/order
   content-type: application/json
   {"id":"1","jsonrpc":"2.0","method":"getAll"}
 
-  GET /v1/order?jsonrpc=2.0&id=1&method=getAll
+  GET /v1/order?jsonrpc=2.0&id=1&method=getAll&params=W10=
+  base64encode([]) -> W10=
   */
   @JsonRpcMethod(value = "getAll")
   List<Order> getAll();
@@ -23,8 +23,6 @@ public interface OrderApiV1 {
    POST /v1/order
    content-type: application/json
    {"id":"1","jsonrpc":"2.0","method":"get", "params":{"id":2}}
-
-   GET /v1/order?jsonrpc=2.0&id=1&method=get&params=%7B%22id%22%3A2%7D
   */
   @JsonRpcErrors({
       @JsonRpcError(exception = OrderNotFoundException.class,
@@ -38,7 +36,7 @@ public interface OrderApiV1 {
   content-type: application/json
   {"id":"1","jsonrpc":"2.0","method":"get", "params":[{"id":2, "type":"SELL"}]}
 
-  GET /v1/order?jsonrpc=2.0&id=1&method=get&params=%5B%7B%22id%22%3A2%2C+%22type%22%3A%22SELL%22%7D%5D
+  GET /v1/order?jsonrpc=2.0&id=1&method=getOne&params=eyJpZCI6Mn0=
   */
   @JsonRpcMethod(value = "getOrder")
   Order getOrder(Order order);

@@ -21,6 +21,6 @@ public class WebSocketConfiguration1 implements WebSocketConfigurer {
 
   @Override
   public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
-    webSocketHandlerRegistry.addHandler(chatWebSocketHandler(), "/color").withSockJS();
+    webSocketHandlerRegistry.addHandler(chatWebSocketHandler(), "/part1").withSockJS();
   }
 }

@@ -26,8 +26,8 @@ import java.util.Map;
 @Controller
 public class GreetingController {
   @RequestMapping("/hello")
-  public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World") String name, Model model) {
-    model.addAttribute("name", name + "!!!!!!!!!!!!!!!");
+  public String greeting(Model model) {
+    model.addAttribute("!!!!!!!!!!!!!!!");
     return "greeting";
   }
 
@@ -42,8 +42,8 @@ public class GreetingController {
   @Autowired
   private SimpMessagingTemplate simpMessagingTemplate;
 
-  @MessageMapping("/color")
-  @SendToUser("/topic/color")
+  @MessageMapping("/part1")
+  @SendToUser("/topic/part1")
   public String receiveColor(Message message, String str, @Payload String payload) throws IOException {
     System.out.println(message);
     OutputStream out = new ByteArrayOutputStream();
@@ -62,6 +62,5 @@ public class GreetingController {
       }
     });
     simpMessagingTemplate.convertAndSend("/topic/light", "======***======");
-//  ??  simpMessagingTemplate.convertAndSendToUser("sub-0", "/topic/color", "======***======");
   }
 }

@@ -1,9 +1,11 @@
 var stompClient = null;
 
 function connect1() {
-    var socket = new SockJS('/color');
+    var socket = new SockJS('/part1');
 
-    /*socket.onmessage = function (message) {
+    /*
+    without Stomp
+    socket.onmessage = function (message) {
         console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
         console.dir(message);
     };
@@ -17,11 +19,11 @@ function connect1() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function(frame) {
         console.log('!Connected: ' + frame);
-        stompClient.send("/color", {}, JSON.stringify({"id":"1","jsonrpc":"2.0","method":"getOne","params":[2]}));
-        // stompClient.send("/color", {}, JSON.stringify({"id":"1","jsonrpc":"2.0","method":"getOne","params":{"id":2}}));
-        // stompClient.send("/color", {}, JSON.stringify({"id":"1","jsonrpc":"2.0","method":"getAll"}));
-        stompClient.subscribe('/user/topic/color', function(message){
-            console.log("1 ************************");
+        stompClient.send("/part1", {}, JSON.stringify({"id":"1","jsonrpc":"2.0","method":"getOne","params":[2]}));
+        // stompClient.send("/part1", {}, JSON.stringify({"id":"1","jsonrpc":"2.0","method":"getOne","params":{"id":2}}));
+        // stompClient.send("/part1", {}, JSON.stringify({"id":"1","jsonrpc":"2.0","method":"getAll"}));
+        stompClient.subscribe('/user/topic/part1', function(message){
+            console.log("1 ************************"+"recieved: stompClient.send(/part1...");
             console.dir(message);
         });
         stompClient.subscribe('/topic/light', function(message){
@@ -32,12 +34,12 @@ function connect1() {
 }
 
 function connect2() {
-    var socket = new SockJS('/color');
+    var socket = new SockJS('/part1');
 
     var stompClient1 = Stomp.over(socket);
     stompClient1.connect({}, function(frame) {
         console.log('!Connected: ' + frame);
-        stompClient1.subscribe('/user/topic/color', function(message){
+        stompClient1.subscribe('/user/topic/part1', function(message){
             console.log("2 ************************");
             console.dir(message);
         });
@@ -58,10 +60,6 @@ function disconnect() {
 
 connect1();
 connect2();
-// stompClient.send(JSON.stringify({"id":"1","jsonrpc":"2.0","method":"get","params":{"id":2}}));
-//    stompClient.send("test");
-//    stompClient.send("/", {}, JSON.stringify({"id":"1","jsonrpc":"2.0","method":"get","params":{"id":2}}));
-//    stompClient.send("/", {}, JSON.stringify({"id":"1","jsonrpc":"2.0","method":"get","params":{"id":2}}));
 // disconnect();
 
 

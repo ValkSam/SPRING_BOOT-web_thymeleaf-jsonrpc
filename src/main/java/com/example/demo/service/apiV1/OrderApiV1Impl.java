@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-//@AutoJsonRpcServiceImpl
 public class OrderApiV1Impl implements OrderApiV1 {
 
   @Autowired OrderDao orderDao;
