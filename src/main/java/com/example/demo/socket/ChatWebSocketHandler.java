@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
-@Component
+//@Component
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
   private final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
@@ -32,8 +32,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     return sessions;
   }
 
-  @Qualifier("/v1/orderServer") @Autowired JsonRpcServer jsonRpcOrderServer;
-  @Qualifier("/v1/depositServer") @Autowired JsonRpcServer jsonRpcDepositServer;
+//  @Qualifier("/v1/orderServer") @Autowired JsonRpcServer jsonRpcOrderServer;
+//  @Qualifier("/v1/depositServer") @Autowired JsonRpcServer jsonRpcDepositServer;
 
   @Override
   protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {

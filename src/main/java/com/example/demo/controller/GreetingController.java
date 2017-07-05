@@ -37,7 +37,7 @@ public class GreetingController {
   @Qualifier("/v1/orderServer") @Autowired JsonRpcServer jsonRpcOrderServer;
   @Qualifier("/v1/depositServer") @Autowired JsonRpcServer jsonRpcDepositServer;
 
-  @Autowired ChatWebSocketHandler chatWebSocketHandler;
+//  @Autowired ChatWebSocketHandler chatWebSocketHandler;
 
   @Autowired
   private SimpMessagingTemplate simpMessagingTemplate;

@@ -14,7 +14,8 @@ public interface DepositApiV1 {
 
   GET /v1/deposit?jsonrpc=2.0&id=1&method=getAll&params=W10=
   */
-  List<Deposit> getAll();
+  @JsonRpcMethod(value = "getAll")
+  List<Deposit> get_All();
 
   /*
    POST /v1/deposit
@@ -28,13 +29,14 @@ public interface DepositApiV1 {
       @JsonRpcError(exception = DepositNotFoundException.class,
           code = -10000, message = "Order not found")
   })
-  Deposit getOne(@JsonRpcParam(value = "id") int depositId);
+  @JsonRpcMethod(value = "getOne")
+  Deposit get_One(@JsonRpcParam(value = "id") int depositId);
 
   /*
   * POST /v1/deposit
   content-type: application/json
   {"id":"1","jsonrpc":"2.0","method":"get", "params":[{"id":2, "type":"USD"}]}
   */
-  Deposit getOne(Deposit deposit);
+  Deposit get_One(Deposit deposit);
 
 }

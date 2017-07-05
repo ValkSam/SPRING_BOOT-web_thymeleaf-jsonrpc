@@ -17,18 +17,18 @@ public class DepositApiV1Impl implements DepositApiV1 {
   @Autowired DepositDao depositDao;
 
   @Override
-  public List<Deposit> getAll() {
+  public List<Deposit> get_All() {
     return depositDao.findAll();
   }
 
   @Override
-  public Deposit getOne(int depositId) {
+  public Deposit get_One(int depositId) {
     Optional<Deposit> result = depositDao.findById(depositId);
     return result.orElseThrow(() -> new DepositNotFoundException(String.valueOf(depositId)));
   }
 
   @Override
-  public Deposit getOne(Deposit deposit) {
-    return getOne(deposit.getId());
+  public Deposit get_One(Deposit deposit) {
+    return get_One(deposit.getId());
   }
 }
