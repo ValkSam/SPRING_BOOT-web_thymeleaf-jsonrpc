@@ -1,8 +1,7 @@
 var stompClient = null;
 
 function connect1() {
-    var socket = new SockJS('/part1');
-
+    var socket = new SockJS('/socket');
     /*
     without Stomp
     socket.onmessage = function (message) {
@@ -19,17 +18,18 @@ function connect1() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function(frame) {
         console.log('!Connected: ' + frame);
-        stompClient.send("/part1", {}, JSON.stringify({"id":"1","jsonrpc":"2.0","method":"getOne","params":[2]}));
-        // stompClient.send("/part1", {}, JSON.stringify({"id":"1","jsonrpc":"2.0","method":"getOne","params":{"id":2}}));
-        // stompClient.send("/part1", {}, JSON.stringify({"id":"1","jsonrpc":"2.0","method":"getAll"}));
-        stompClient.subscribe('/user/topic/part1', function(message){
-            console.log("1 ************************"+"recieved: stompClient.send(/part1...");
+        stompClient.subscribe('/user/topic/base', function(message){
+            console.log("We get the base data and ready to receive delta-parts");
             console.dir(message);
+            console.log("==========================");
+            /**/
+            stompClient.subscribe('/topic/part', function(message){
+                console.log("it's delta-part: ");
+                console.dir(message);
+            });
         });
-        stompClient.subscribe('/topic/light', function(message){
-            console.log("2 ************************");
-            console.dir(message);
-        });
+        stompClient.send("/order", {}, JSON.stringify({"id":"1","jsonrpc":"2.0","method":"getOne","params":[2]}));
+
     });
 }
 
@@ -40,7 +40,7 @@ function connect2() {
     stompClient1.connect({}, function(frame) {
         console.log('!Connected: ' + frame);
         stompClient1.subscribe('/user/topic/part1', function(message){
-            console.log("2 ************************");
+            console.log("3 ************************");
             console.dir(message);
         });
         stompClient1.subscribe('/topic/light', function(message){
@@ -59,7 +59,7 @@ function disconnect() {
 }
 
 connect1();
-connect2();
+// connect2();
 // disconnect();
 
 

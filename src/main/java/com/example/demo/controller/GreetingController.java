@@ -42,8 +42,8 @@ public class GreetingController {
   @Autowired
   private SimpMessagingTemplate simpMessagingTemplate;
 
-  @MessageMapping("/part1")
-  @SendToUser("/topic/part1")
+  @MessageMapping("/order")
+  @SendToUser("/topic/base")
   public String receiveColor(Message message, String str, @Payload String payload) throws IOException {
     System.out.println(message);
     OutputStream out = new ByteArrayOutputStream();
@@ -54,13 +54,13 @@ public class GreetingController {
 
   @Scheduled(fixedDelay = 5000)
   private void bgColor() {
-    chatWebSocketHandler.getSessions().forEach(webSocketSession -> {
+    /*chatWebSocketHandler.getSessions().forEach(webSocketSession -> {
       try {
         webSocketSession.sendMessage(new TextMessage("===!!!===="));
       } catch (IOException e) {
         e.printStackTrace();
       }
-    });
-    simpMessagingTemplate.convertAndSend("/topic/light", "======***======");
+    });*/
+    simpMessagingTemplate.convertAndSend("/topic/part", "======***======");
   }
 }
